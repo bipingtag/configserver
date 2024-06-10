@@ -1,5 +1,5 @@
 welcome:
-  message: default environment after refreshscope change
+  message: Welcome to SpringCloudConfigClient
 
 management:
   endpoints:
