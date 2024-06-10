@@ -1,2 +1,8 @@
 welcome:
   message: default environment after refreshscope
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
