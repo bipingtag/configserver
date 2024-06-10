@@ -1,8 +1,0 @@
-welcome:
-  message: Welcome to SpringCloudConfigClient
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
