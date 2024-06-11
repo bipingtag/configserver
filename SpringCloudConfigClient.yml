@@ -2,7 +2,7 @@ server:
   port: 8082
 
 welcome:
-  message: Welcome Bipin!
+  message: Welcome Bipin! Refreshed
 
 management:
   endpoints:
