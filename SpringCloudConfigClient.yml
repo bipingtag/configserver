@@ -3,3 +3,9 @@ server:
 
 welcome:
   message: Welcome Bipin! How are you?
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
