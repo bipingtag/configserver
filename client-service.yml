@@ -1,0 +1,96 @@
+#security:
+#  oauth2:
+#    client:
+#      client-id: program-service
+#      client-secret: KU4ntVYoOIwchciGPg57AYIIdpY12D0l
+#      grant-type: client_credentials
+#      scope: server
+
+server:
+  port: 9705
+  connection-timeout: 6000
+  max-http-header-size: 1024KB
+
+spring:
+  datasource:
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 2
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:tagdev}
+    password: ${DB_PASSWORD:tagdev}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        id:
+          db_structure_naming_strategy: legacy
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:https://keycloak-tag-pay-qa.devtomaster.com}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://localhost:8080}/realms/tag-biometric/protocol/openid-connect/certs
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://localhost:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:1rnbod8iDEcDjX4guTvM9mDG7g0nnz9I}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:farsin@tagbiometrics.com}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411}/api/v2/spans
